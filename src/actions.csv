@@ -1,2 +1,2 @@
-action-name,action-yaml-file,marketplace-link,logo
+action-name,action-yaml-file,marketplace-link,icon
 azure/aml-run,https://github.com/machine-learning-apps/actions-argo/blob/master/action.yaml,https://github.com/marketplace/actions/submit-argo-workflows-from-github,
