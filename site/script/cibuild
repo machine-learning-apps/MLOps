@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -e
+
+script/build -d _site
+script/proof _site

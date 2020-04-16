@@ -1,0 +1,14 @@
+version: '3.6'
+services:
+  pages:
+    build:
+      context: "."
+      cache_from:
+      - octofactory.service.private-us-east-1.github.net/github-golden-docker/github-pages.github.com:pages.github.com-pages
+    volumes:
+    - "${VOLUME:-.}:/usr/srv"
+    environment:
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+      LANGUAGE: C.UTF-8
+    image: pages.github.com-pages

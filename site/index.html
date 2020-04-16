@@ -1,0 +1,118 @@
+---
+layout: home
+permalink: "/"
+# slides for slideshow
+# key should be filename in /images/slideshow/[filename].png
+# value should be human-readable title
+images:
+  microsoft: Microsoft on GitHub
+---
+
+<section id="tutorial" class="tutorial">
+  <h1>Machine Learning Ops?</h1>
+  <h2>Machine Learning Ops, or ML Ops, describes the set of tools and practices required for developing, deploying and maintaining Machine Learning Projects. 
+    This covers a large operational area and the integration and use of the tools for ML Ops can be onerous due to this. There are also gaps in the 
+    workflow that can benefit from automation or additional tooling.</h2>
+  </br>
+  <h2>GitHub provides a platform that can help reduce the burden of ML Ops through open source examples and automation with GitHub actions and repository templates. 
+    This site was designed to share these actions, templates and examples that have been built by the community.</h2>
+
+  <h1>Actions</h1>
+  <ul id="actions" class="tutorial-list wrapper active">
+    <li id="add-actions-step" class="image-right">
+      <h4>Creating an ML Ops Workflow</h4>
+      <p>Use actions to automate Data Science and Machine Learning Workflows. Check out the community built <a href=/actions>actions for ML Ops</a></p>
+
+      <p class="details">The actions are modular and defined as part of a workflow in the .github/workflows directory of your repo.</p>
+    </li>
+
+    <li>
+      <h4>Using Community Driven Actions</h4>
+      <p>Actions are available to help orchestrate training, testing and deploying Machine Learning models. We have curated a set of actions available for ML Operations.</p>
+      <a class="desktop-download" href="/actions"><span class="icon"></span>Community Featured</a>
+      <a href="/actions"><img src="images/marketplace.png" width="850" alt="GitHub Desktop screenshot"/></a>
+    </li>
+    <li id="contributing-action" class="image-right">
+      <h4>Contributing an Action</h4>
+      <p>The list of community actions is managed through the <a href="https://github.com/machine-learning-apps/MLOps">MLOps repo</a>. 
+      Open an <a href="https://github.com/machine-learning-apps/MLOps/issues/new?assignees=&labels=&template=feature_request.md&title=%5BFeature+Request%5D%3A">issue</a> to propose a useful MLOps action or open a pull request to add your action to <a href="https://github.com/machine-learning-apps/MLOps/blob/master/src/actions.csv">the list</a>.
+      </p>
+    </li>
+  </ul>
+
+  <h1>Templates</h1>
+  <ul id="templates" class="tutorial-list wrapper active">
+    <li id="generate-step-1" class="option-generate">
+      <h4>Community Driven Templates</h4>
+      <p>Templates are repositories that can be used as scaffolding for starting a project. The MLOps community has 
+        developed a multitude of these that allow you to get started on many different flavors of cloud.
+        Head over to the <a href="/templates">Community Templates</a> and choose from one of the tempates to get started.
+      <img src="images/template-comm.png" width="720" alt="Settings for a repository" />
+    </li>
+
+    <li class="option-generate">
+      <h4>Selecting a Template</h4>
+      <p>Choose one of the templates and you will be directed to the template setup page. 
+      <br>Choose your repository name and you <strong>Select theme</strong> on the right.</p>
+
+      <img src="images/template-setup.png" class="full-size" width="720" alt="Choose layout" />
+    </li>
+
+    <li class="option-generate">
+      <h4>Edit content</h4>
+      <p>Use the editor to update the </p>
+      <img class="full-size" src="images/template.png" width="720" alt="Add content to your GitHub Pages site" />
+    </li>
+
+    <li id="contributing-template" class="image-right">
+      <h4>Contributing a Template</h4>
+      <p>The list of community templates is managed through the <a href="https://github.com/machine-learning-apps/MLOps">MLOps repo</a>. 
+      Open an <a href="https://github.com/machine-learning-apps/MLOps/issues/new?assignees=&labels=&template=feature_request.md&title=%5BFeature+Request%5D%3A">issue</a> to propose a 
+      useful MLOps template or open a pull request to add your action to <a href="https://github.com/machine-learning-apps/MLOps/blob/master/src/actions.csv">the list</a>.
+      </p>
+    </li>
+  </ul>
+
+</section>
+<!-- End of tutorial section -->
+<div>
+  <h1>Some of our Contributors</h1>
+  <div class="grid-pad">
+    <div class="col-1-4">
+      <div class="card-contributors">
+        <img src="https://avatars2.githubusercontent.com/u/6844498?s=200&v=4" alt="Avatar" style="height:60%">
+        <div class="container-contributors">
+          <h4>Azure</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-1-4">
+      <div class="card-contributors">
+        <img src="https://avatars1.githubusercontent.com/u/9919?s=200&v=4" alt="avatar" style="height:60%">
+        <div class="container-contributors">
+          <h4>GitHub</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-1-4">
+      <div class="card-contributors">
+        <img src="img_avatar.png" alt="Avatar" style="width:100%">
+        <div class="container-contributors">
+          <h4>Azure</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-1-4">
+      <div class="card-contributors">
+        <img src="img_avatar.png" alt="Avatar" style="width:100%">
+        <div class="container-contributors">
+          <h4>Azure</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/jquery.js"></script>
+<script>window.slides = {{ page.images | jsonify }}</script>
+<script src="/js/application.js"></script>

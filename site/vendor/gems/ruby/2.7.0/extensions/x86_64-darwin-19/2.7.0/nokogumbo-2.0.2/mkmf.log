@@ -1,0 +1,95 @@
+find_header: checking for libxml/tree.h in /Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/nokogiri-1.10.9/ports/x86_64-apple-darwin19.3.0/libxml2/2.9.10/include/libxml2... -------------------- no
+
+"clang -o conftest -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/x86_64-darwin19 -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/ruby/backward -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/openssl@1.1/include -I/usr/local/opt/readline/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdivision-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wmissing-noreturn -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wextra-tokens  -fno-common -pipe -std=c99 conftest.c  -L. -L/usr/local/Cellar/ruby/2.7.0/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/openssl@1.1/lib -L/usr/local/opt/readline/lib -L. -fstack-protector-strong -L/usr/local/lib -L/usr/local/opt/libyaml/lib -L/usr/local/opt/openssl@1.1/lib -L/usr/local/opt/readline/lib     -lruby.2.7   "
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+"clang -E -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/x86_64-darwin19 -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/ruby/backward -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/openssl@1.1/include -I/usr/local/opt/readline/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdivision-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wmissing-noreturn -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wextra-tokens  -fno-common -pipe -std=c99  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'libxml/tree.h' file not found
+#include <libxml/tree.h>
+         ^~~~~~~~~~~~~~~
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/tree.h>
+/* end */
+
+"clang -E -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/x86_64-darwin19 -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/ruby/backward -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/openssl@1.1/include -I/usr/local/opt/readline/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdivision-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wmissing-noreturn -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wextra-tokens  -fno-common -pipe -std=c99 -I/Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/nokogiri-1.10.9/ports/x86_64-apple-darwin19.3.0/libxml2/2.9.10/include/libxml2 conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'libxml/tree.h' file not found
+#include <libxml/tree.h>
+         ^~~~~~~~~~~~~~~
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/tree.h>
+/* end */
+
+--------------------
+
+find_header: checking for libxml/tree.h in ports/x86_64-apple-darwin19.3.0/libxml2/2.9.10/include/libxml2... -------------------- yes
+
+"clang -E -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/x86_64-darwin19 -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/ruby/backward -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/openssl@1.1/include -I/usr/local/opt/readline/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdivision-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wmissing-noreturn -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wextra-tokens  -fno-common -pipe -std=c99  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'libxml/tree.h' file not found
+#include <libxml/tree.h>
+         ^~~~~~~~~~~~~~~
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/tree.h>
+/* end */
+
+"clang -E -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/x86_64-darwin19 -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/ruby/backward -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0 -I.  -I/usr/local/opt/libyaml/include -I/usr/local/opt/openssl@1.1/include -I/usr/local/opt/readline/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdivision-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wmissing-noreturn -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wextra-tokens  -fno-common -pipe -std=c99 -Iports/x86_64-apple-darwin19.3.0/libxml2/2.9.10/include/libxml2 conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <libxml/tree.h>
+/* end */
+
+--------------------
+
+find_header: checking for nokogiri.h in /Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/nokogiri-1.10.9/ext/nokogiri... -------------------- yes
+
+"clang -E -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/x86_64-darwin19 -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/ruby/backward -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0 -I. -Iports/x86_64-apple-darwin19.3.0/libxml2/2.9.10/include/libxml2  -I/usr/local/opt/libyaml/include -I/usr/local/opt/openssl@1.1/include -I/usr/local/opt/readline/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdivision-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wmissing-noreturn -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wextra-tokens  -fno-common -pipe -std=c99  conftest.c -o conftest.i"
+conftest.c:3:10: fatal error: 'nokogiri.h' file not found
+#include <nokogiri.h>
+         ^~~~~~~~~~~~
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <nokogiri.h>
+/* end */
+
+"clang -E -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/x86_64-darwin19 -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/ruby/backward -I/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0 -I. -Iports/x86_64-apple-darwin19.3.0/libxml2/2.9.10/include/libxml2  -I/usr/local/opt/libyaml/include -I/usr/local/opt/openssl@1.1/include -I/usr/local/opt/readline/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdivision-by-zero -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wshorten-64-to-32 -Wwrite-strings -Wmissing-noreturn -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wunused-variable -Wextra-tokens  -fno-common -pipe -std=c99 -I/Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/nokogiri-1.10.9/ext/nokogiri conftest.c -o conftest.i"
+In file included from conftest.c:3:
+/Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/nokogiri-1.10.9/ext/nokogiri/nokogiri.h:13:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+#define _GNU_SOURCE
+        ^
+/usr/local/Cellar/ruby/2.7.0/include/ruby-2.7.0/x86_64-darwin19/ruby/config.h:16:9: note: previous definition is here
+#define _GNU_SOURCE 1
+        ^
+1 warning generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <nokogiri.h>
+/* end */
+
+--------------------
+

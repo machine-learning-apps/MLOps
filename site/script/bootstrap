@@ -1,0 +1,11 @@
+#!/bin/sh
+#bootstrap the development environment
+
+set -e
+
+script/branding
+
+echo "=== Bundle Installin' ==="
+bundle install --binstubs bin --path vendor/gems
+
+echo "== Done =="

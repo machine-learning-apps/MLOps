@@ -1,0 +1,9 @@
+#!/bin/sh
+#build site locally and run
+
+set -e
+
+script/branding
+
+echo "=== Starting server. ==="
+bundle exec jekyll serve --watch

@@ -1,0 +1,6 @@
+#!/bin/sh
+site_dir="$1"
+: ${site_dir:="_site"}
+bundle exec htmlproofer $site_dir \
+  --url-ignore /rubygems.org/ \
+  --enforce-https

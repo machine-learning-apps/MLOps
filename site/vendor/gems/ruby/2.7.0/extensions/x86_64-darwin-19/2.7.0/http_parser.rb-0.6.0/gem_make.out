@@ -1,0 +1,16 @@
+current directory: /Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+/usr/local/opt/ruby/bin/ruby -I /usr/local/Cellar/ruby/2.7.0/lib/ruby/2.7.0 -r ./siteconf20200408-57219-14cccys.rb extconf.rb
+creating Makefile
+
+current directory: /Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR=" clean
+
+current directory: /Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR="
+compiling ruby_http_parser.c
+compiling ryah_http_parser.c
+linking shared-object ruby_http_parser.bundle
+
+current directory: /Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 ruby_http_parser.bundle ./.gem.20200408-57219-1e2d2ul

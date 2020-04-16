@@ -1,0 +1,31 @@
+title: "GitHub Pages"
+description: "Websites for you and your projects, hosted directly from your GitHub repository. Just edit, push, and your changes are live."
+url: "https://pages.github.com"
+twitter:
+  username: github
+
+repository: github/pages.github.com
+
+markdown: kramdown
+exclude:
+  - readme.md
+  - Rakefile
+  - script
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - "package.json"
+  - node_modules
+  - .bundle
+  - ".ruby-version"
+  - ".gitignore"
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-github-metadata
+
+sass:
+  # Where you keep your scss files
+  sass_dir: css/
