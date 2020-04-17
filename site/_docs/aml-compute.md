@@ -1,7 +1,8 @@
-![Integration Test](https://github.com/Azure/aml-compute/workflows/Integration%20Test/badge.svg)
-![Lint](https://github.com/Azure/aml-compute/workflows/Lint/badge.svg)
-
-# Azure Machine Learning Compute Action
+---
+Title: Azure Machine Learning Compute
+category: Azure Machine Learning
+order: 2
+---
 
 ## Usage
 
