@@ -36,3 +36,4 @@ Templates provide implementation details for users to easily get started using y
 ## Contributing
 
 For contributing see the [contributor guidelines](https://github.com/machine-learning-apps/MLOps/blob/master/contributing.md)
+ 
