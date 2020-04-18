@@ -29,3 +29,14 @@ plugins:
 sass:
   # Where you keep your scss files
   sass_dir: css/
+
+collections:
+  docs:
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "document"
