@@ -1,1 +1,0 @@
-["--host=x86_64-apple-darwin19.3.0", "--enable-static", "--disable-shared", "--without-python", "--without-readline", "--with-c14n", "--with-debug", "--with-threads", "--prefix=/Users/zander/Projects/MLOps/site/vendor/gems/ruby/2.7.0/gems/nokogumbo-2.0.2/ext/nokogumbo/ports/x86_64-apple-darwin19.3.0/libxml2/2.9.10"]

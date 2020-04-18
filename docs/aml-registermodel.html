@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link type="text/css" href="/css/pages.css" media="all" rel="stylesheet">
+
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Aml Registermodel | GitHub Pages</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Aml Registermodel" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Usage The Azure Machine Learning Register Model action will register your model in the Azure Machine Learning model registry for use in deployment and testing. This action is designed to only register the model, if the run has produced better metrics than the latest model that is registered under the same name. The metrics comparison can be controlled with the metrics_max and metrics_min parameters. These parameters define the names of the metrics that should be used for a comparison. Only if the model performs better for all metrics, the actions completes successfully and registers the model. This behavior can be overruled by passing the force_registration as true. You will need to have azure credentials that allow you to connect to the Azure MAchine Learning workspace. This action requires an AML workspace to be created or attached to via the aml-workspace action as well as a run that produces a model that can be either be created via the aml-run action or supplied directly via the experiment_name and run_id input parameters. Template repositories This action is one in a series of actions that can be used to setup an ML Ops process. Examples of these can be found at Simple example: ml-template-azure and Comprehensive example: aml-template. Example workflow name: My Workflow on: [push, pull_request] jobs: build: runs-on: ubuntu-latest steps: # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it - name: Check Out Repository id: checkout_repository uses: actions/checkout@v2 # AML Workspace Action - uses: Azure/aml-workspace id: aml_workspace with: azure_credentials: $ # AML Run Action - uses: Azure/aml-run id: aml_run with: azure_credentials: $ # AML Register Model Action - uses: Azure/aml-registermodel id: aml_registermodel with: # required inputs azure_credentials: $ run_id: $ experiment_name: $ # optional inputs parameters_file: &quot;registermodel.json&quot; Inputs Input Required Default Description azure_credentials x - Output of az ad sp create-for-rbac --name &lt;your-sp-name&gt; --role contributor --scopes /subscriptions/&lt;your-subscriptionId&gt;/resourceGroups/&lt;your-rg&gt; --sdk-auth. This should be stored in your secrets. experiment_name x - Experiment name to which the run belongs to. run_id x - ID of the run or pipeline run for which a model is to be registered. parameters_file   &quot;registermodel.json&quot; JSON file in the .cloud/.azure folder specifying your Azure Machine Learning model registration details. Azure Credentials Azure credentials are required to connect to your Azure Machine Learning Workspace. These may have been created for an action you are already using in your repository, if so, you can skip the steps below. Install the Azure CLI on your computer or use the Cloud CLI and execute the following command to generate the required credentials: # Replace {service-principal-name}, {subscription-id} and {resource-group} with your Azure subscription id and resource group name and any name for your service principle az ad sp create-for-rbac --name {service-principal-name} \ --role contributor \ --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \ --sdk-auth This will generate the following JSON output: { &quot;clientId&quot;: &quot;&lt;GUID&gt;&quot;, &quot;clientSecret&quot;: &quot;&lt;GUID&gt;&quot;, &quot;subscriptionId&quot;: &quot;&lt;GUID&gt;&quot;, &quot;tenantId&quot;: &quot;&lt;GUID&gt;&quot;, (...) } Add this JSON output as a secret with the name AZURE_CREDENTIALS in your GitHub repository. Parameters File The action tries to load a JSON file in the .cloud/.azure folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action is looking for a file with the name registermodel.json. If your JSON file has a different name, you can specify it with this parameter. Note that none of these values are required and in the absence, defaults will be used. A sample file can be found in this repository in the folder .cloud/.azure. The JSON file can include the following parameters: Parameter Required Allowed Values Default Description model_file_name   str &quot;model.pkl&quot; The file name for the model asset. You only have to specify the name of the model file (e.g. (&quot;model.pkl&quot;)) and not the path (e.g. &quot;outputs/model.pkl&quot;). The can take care of the path that was used to store the file. model_name   str - The name to register the model with. It must only consist of letters, numbers, dashes, periods, or underscores, start with a letter or number, and be between 1 and 32 characters long. model_framework   str: &quot;scikitlearn&quot;, &quot;onnx&quot;, &quot;tensorflow&quot;, &quot;keras&quot;, &quot;custom&quot; &quot;custom&quot; The framework of the registered model. model_framework_version   str null The framework version of the registered model. model_tags   dict: {“&quot;: &quot;&quot;, ...} null An optional dictionary of key value tags to assign to the model. model_properties   dict: {“&quot;: &quot;&quot;, ...} null An optional dictionary of key value properties to assign to the model. These properties can’t be changed after model creation, however new key value pairs can be added. model_description   str null A text description of the model. datasets   list null A list of dataset names that are regstered in your workspace that should be assigned to the registered model. sample_input_dataset   str null Name of a sample input dataset that is regstered in your workspace for the registered model. sample_output_dataset   str null Name of a sample output dataset that is regstered in your workspace for the registered model. pipeline_child_run_name   str &quot;model_training&quot; If you provided a run ID of a pipeline to this GitHub Action, you have to specify the name of the step that produced the model. Without providing the name of the step that produced the model, the Action does not know where to look for the model file. The step in the pipeline with the provided name can be of any type (HyperDriveStep, PythonScriptStep, etc.). There are no limitations on the step type. cpu   float null The number of CPU cores to allocate for this resource. Can be a decimal. You have to specify cpu and memory to register the model with a resource configuration. If you do not specify both parameters the model will be registered without a resource configuration. memory   float null The amount of memory (in GB) to allocate for this resource. Can be a decimal. You have to specify cpu and memory to register the model with a resource configuration. If you do not specify both parameters the model will be registered without a resource configuration. metrics_max   list null List of metrics names that must be maximized. The action compares the metrics of the provided run with the linked run of the latest model with the same name that is registered in the model registry. The action fails if any of the specified metrics are lower than the metrics of the latest model in your model registry. If a model with the same name cannot be found or if the latest model in your model registry is not linked to a run in Azure Machine Learning, it will register the model without comparing any metrics. metrics_min   list null List of metrics names that must be minimized. The action compares the metrics of the provided run with the linked run of the latest model with the same name that is registered in the model registry. The action fails if any of the specified metrics are higher than the metrics of the latest model in your model registry. If a model with the same name cannot be found or if the latest model in your model registry is not linked to a run in Azure Machine Learning, it will register the model without comparing any metrics. force_registration   bool false Boolean value that determines whether or not to force the registration of the model regardless of the provided metrics. Please visit this website for more details. Outputs Output Description model_name Name of the registered model model_version Version of the registered model model_id ID of the registered model Other Azure Machine Learning Actions aml-workspace - Connects to or creates a new workspace aml-compute - Connects to or creates a new compute target in Azure Machine Learning aml-run - Submits a ScriptRun, an Estimator or a Pipeline to Azure Machine Learning aml-registermodel - Registers a model to Azure Machine Learning aml-deploy - Deploys a model and creates an endpoint for the model Contributing This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com. When you submit a pull request, a CLA bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA. This project has adopted the Microsoft Open Source Code of Conduct. For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments." />
+<meta property="og:description" content="Usage The Azure Machine Learning Register Model action will register your model in the Azure Machine Learning model registry for use in deployment and testing. This action is designed to only register the model, if the run has produced better metrics than the latest model that is registered under the same name. The metrics comparison can be controlled with the metrics_max and metrics_min parameters. These parameters define the names of the metrics that should be used for a comparison. Only if the model performs better for all metrics, the actions completes successfully and registers the model. This behavior can be overruled by passing the force_registration as true. You will need to have azure credentials that allow you to connect to the Azure MAchine Learning workspace. This action requires an AML workspace to be created or attached to via the aml-workspace action as well as a run that produces a model that can be either be created via the aml-run action or supplied directly via the experiment_name and run_id input parameters. Template repositories This action is one in a series of actions that can be used to setup an ML Ops process. Examples of these can be found at Simple example: ml-template-azure and Comprehensive example: aml-template. Example workflow name: My Workflow on: [push, pull_request] jobs: build: runs-on: ubuntu-latest steps: # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it - name: Check Out Repository id: checkout_repository uses: actions/checkout@v2 # AML Workspace Action - uses: Azure/aml-workspace id: aml_workspace with: azure_credentials: $ # AML Run Action - uses: Azure/aml-run id: aml_run with: azure_credentials: $ # AML Register Model Action - uses: Azure/aml-registermodel id: aml_registermodel with: # required inputs azure_credentials: $ run_id: $ experiment_name: $ # optional inputs parameters_file: &quot;registermodel.json&quot; Inputs Input Required Default Description azure_credentials x - Output of az ad sp create-for-rbac --name &lt;your-sp-name&gt; --role contributor --scopes /subscriptions/&lt;your-subscriptionId&gt;/resourceGroups/&lt;your-rg&gt; --sdk-auth. This should be stored in your secrets. experiment_name x - Experiment name to which the run belongs to. run_id x - ID of the run or pipeline run for which a model is to be registered. parameters_file   &quot;registermodel.json&quot; JSON file in the .cloud/.azure folder specifying your Azure Machine Learning model registration details. Azure Credentials Azure credentials are required to connect to your Azure Machine Learning Workspace. These may have been created for an action you are already using in your repository, if so, you can skip the steps below. Install the Azure CLI on your computer or use the Cloud CLI and execute the following command to generate the required credentials: # Replace {service-principal-name}, {subscription-id} and {resource-group} with your Azure subscription id and resource group name and any name for your service principle az ad sp create-for-rbac --name {service-principal-name} \ --role contributor \ --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \ --sdk-auth This will generate the following JSON output: { &quot;clientId&quot;: &quot;&lt;GUID&gt;&quot;, &quot;clientSecret&quot;: &quot;&lt;GUID&gt;&quot;, &quot;subscriptionId&quot;: &quot;&lt;GUID&gt;&quot;, &quot;tenantId&quot;: &quot;&lt;GUID&gt;&quot;, (...) } Add this JSON output as a secret with the name AZURE_CREDENTIALS in your GitHub repository. Parameters File The action tries to load a JSON file in the .cloud/.azure folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action is looking for a file with the name registermodel.json. If your JSON file has a different name, you can specify it with this parameter. Note that none of these values are required and in the absence, defaults will be used. A sample file can be found in this repository in the folder .cloud/.azure. The JSON file can include the following parameters: Parameter Required Allowed Values Default Description model_file_name   str &quot;model.pkl&quot; The file name for the model asset. You only have to specify the name of the model file (e.g. (&quot;model.pkl&quot;)) and not the path (e.g. &quot;outputs/model.pkl&quot;). The can take care of the path that was used to store the file. model_name   str - The name to register the model with. It must only consist of letters, numbers, dashes, periods, or underscores, start with a letter or number, and be between 1 and 32 characters long. model_framework   str: &quot;scikitlearn&quot;, &quot;onnx&quot;, &quot;tensorflow&quot;, &quot;keras&quot;, &quot;custom&quot; &quot;custom&quot; The framework of the registered model. model_framework_version   str null The framework version of the registered model. model_tags   dict: {“&quot;: &quot;&quot;, ...} null An optional dictionary of key value tags to assign to the model. model_properties   dict: {“&quot;: &quot;&quot;, ...} null An optional dictionary of key value properties to assign to the model. These properties can’t be changed after model creation, however new key value pairs can be added. model_description   str null A text description of the model. datasets   list null A list of dataset names that are regstered in your workspace that should be assigned to the registered model. sample_input_dataset   str null Name of a sample input dataset that is regstered in your workspace for the registered model. sample_output_dataset   str null Name of a sample output dataset that is regstered in your workspace for the registered model. pipeline_child_run_name   str &quot;model_training&quot; If you provided a run ID of a pipeline to this GitHub Action, you have to specify the name of the step that produced the model. Without providing the name of the step that produced the model, the Action does not know where to look for the model file. The step in the pipeline with the provided name can be of any type (HyperDriveStep, PythonScriptStep, etc.). There are no limitations on the step type. cpu   float null The number of CPU cores to allocate for this resource. Can be a decimal. You have to specify cpu and memory to register the model with a resource configuration. If you do not specify both parameters the model will be registered without a resource configuration. memory   float null The amount of memory (in GB) to allocate for this resource. Can be a decimal. You have to specify cpu and memory to register the model with a resource configuration. If you do not specify both parameters the model will be registered without a resource configuration. metrics_max   list null List of metrics names that must be maximized. The action compares the metrics of the provided run with the linked run of the latest model with the same name that is registered in the model registry. The action fails if any of the specified metrics are lower than the metrics of the latest model in your model registry. If a model with the same name cannot be found or if the latest model in your model registry is not linked to a run in Azure Machine Learning, it will register the model without comparing any metrics. metrics_min   list null List of metrics names that must be minimized. The action compares the metrics of the provided run with the linked run of the latest model with the same name that is registered in the model registry. The action fails if any of the specified metrics are higher than the metrics of the latest model in your model registry. If a model with the same name cannot be found or if the latest model in your model registry is not linked to a run in Azure Machine Learning, it will register the model without comparing any metrics. force_registration   bool false Boolean value that determines whether or not to force the registration of the model regardless of the provided metrics. Please visit this website for more details. Outputs Output Description model_name Name of the registered model model_version Version of the registered model model_id ID of the registered model Other Azure Machine Learning Actions aml-workspace - Connects to or creates a new workspace aml-compute - Connects to or creates a new compute target in Azure Machine Learning aml-run - Submits a ScriptRun, an Estimator or a Pipeline to Azure Machine Learning aml-registermodel - Registers a model to Azure Machine Learning aml-deploy - Deploys a model and creates an endpoint for the model Contributing This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com. When you submit a pull request, a CLA bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA. This project has adopted the Microsoft Open Source Code of Conduct. For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments." />
+<link rel="canonical" href="https://pages.github.com/docs/aml-registermodel.html" />
+<meta property="og:url" content="https://pages.github.com/docs/aml-registermodel.html" />
+<meta property="og:site_name" content="GitHub Pages" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-18T18:52:10-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Aml Registermodel" />
+<meta name="twitter:site" content="@github" />
+<script type="application/ld+json">
+{"dateModified":"2020-04-18T18:52:10-05:00","datePublished":"2020-04-18T18:52:10-05:00","description":"Usage The Azure Machine Learning Register Model action will register your model in the Azure Machine Learning model registry for use in deployment and testing. This action is designed to only register the model, if the run has produced better metrics than the latest model that is registered under the same name. The metrics comparison can be controlled with the metrics_max and metrics_min parameters. These parameters define the names of the metrics that should be used for a comparison. Only if the model performs better for all metrics, the actions completes successfully and registers the model. This behavior can be overruled by passing the force_registration as true. You will need to have azure credentials that allow you to connect to the Azure MAchine Learning workspace. This action requires an AML workspace to be created or attached to via the aml-workspace action as well as a run that produces a model that can be either be created via the aml-run action or supplied directly via the experiment_name and run_id input parameters. Template repositories This action is one in a series of actions that can be used to setup an ML Ops process. Examples of these can be found at Simple example: ml-template-azure and Comprehensive example: aml-template. Example workflow name: My Workflow on: [push, pull_request] jobs: build: runs-on: ubuntu-latest steps: # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it - name: Check Out Repository id: checkout_repository uses: actions/checkout@v2 # AML Workspace Action - uses: Azure/aml-workspace id: aml_workspace with: azure_credentials: $ # AML Run Action - uses: Azure/aml-run id: aml_run with: azure_credentials: $ # AML Register Model Action - uses: Azure/aml-registermodel id: aml_registermodel with: # required inputs azure_credentials: $ run_id: $ experiment_name: $ # optional inputs parameters_file: &quot;registermodel.json&quot; Inputs Input Required Default Description azure_credentials x - Output of az ad sp create-for-rbac --name &lt;your-sp-name&gt; --role contributor --scopes /subscriptions/&lt;your-subscriptionId&gt;/resourceGroups/&lt;your-rg&gt; --sdk-auth. This should be stored in your secrets. experiment_name x - Experiment name to which the run belongs to. run_id x - ID of the run or pipeline run for which a model is to be registered. parameters_file   &quot;registermodel.json&quot; JSON file in the .cloud/.azure folder specifying your Azure Machine Learning model registration details. Azure Credentials Azure credentials are required to connect to your Azure Machine Learning Workspace. These may have been created for an action you are already using in your repository, if so, you can skip the steps below. Install the Azure CLI on your computer or use the Cloud CLI and execute the following command to generate the required credentials: # Replace {service-principal-name}, {subscription-id} and {resource-group} with your Azure subscription id and resource group name and any name for your service principle az ad sp create-for-rbac --name {service-principal-name} \\ --role contributor \\ --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \\ --sdk-auth This will generate the following JSON output: { &quot;clientId&quot;: &quot;&lt;GUID&gt;&quot;, &quot;clientSecret&quot;: &quot;&lt;GUID&gt;&quot;, &quot;subscriptionId&quot;: &quot;&lt;GUID&gt;&quot;, &quot;tenantId&quot;: &quot;&lt;GUID&gt;&quot;, (...) } Add this JSON output as a secret with the name AZURE_CREDENTIALS in your GitHub repository. Parameters File The action tries to load a JSON file in the .cloud/.azure folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action is looking for a file with the name registermodel.json. If your JSON file has a different name, you can specify it with this parameter. Note that none of these values are required and in the absence, defaults will be used. A sample file can be found in this repository in the folder .cloud/.azure. The JSON file can include the following parameters: Parameter Required Allowed Values Default Description model_file_name   str &quot;model.pkl&quot; The file name for the model asset. You only have to specify the name of the model file (e.g. (&quot;model.pkl&quot;)) and not the path (e.g. &quot;outputs/model.pkl&quot;). The can take care of the path that was used to store the file. model_name   str - The name to register the model with. It must only consist of letters, numbers, dashes, periods, or underscores, start with a letter or number, and be between 1 and 32 characters long. model_framework   str: &quot;scikitlearn&quot;, &quot;onnx&quot;, &quot;tensorflow&quot;, &quot;keras&quot;, &quot;custom&quot; &quot;custom&quot; The framework of the registered model. model_framework_version   str null The framework version of the registered model. model_tags   dict: {“&quot;: &quot;&quot;, ...} null An optional dictionary of key value tags to assign to the model. model_properties   dict: {“&quot;: &quot;&quot;, ...} null An optional dictionary of key value properties to assign to the model. These properties can’t be changed after model creation, however new key value pairs can be added. model_description   str null A text description of the model. datasets   list null A list of dataset names that are regstered in your workspace that should be assigned to the registered model. sample_input_dataset   str null Name of a sample input dataset that is regstered in your workspace for the registered model. sample_output_dataset   str null Name of a sample output dataset that is regstered in your workspace for the registered model. pipeline_child_run_name   str &quot;model_training&quot; If you provided a run ID of a pipeline to this GitHub Action, you have to specify the name of the step that produced the model. Without providing the name of the step that produced the model, the Action does not know where to look for the model file. The step in the pipeline with the provided name can be of any type (HyperDriveStep, PythonScriptStep, etc.). There are no limitations on the step type. cpu   float null The number of CPU cores to allocate for this resource. Can be a decimal. You have to specify cpu and memory to register the model with a resource configuration. If you do not specify both parameters the model will be registered without a resource configuration. memory   float null The amount of memory (in GB) to allocate for this resource. Can be a decimal. You have to specify cpu and memory to register the model with a resource configuration. If you do not specify both parameters the model will be registered without a resource configuration. metrics_max   list null List of metrics names that must be maximized. The action compares the metrics of the provided run with the linked run of the latest model with the same name that is registered in the model registry. The action fails if any of the specified metrics are lower than the metrics of the latest model in your model registry. If a model with the same name cannot be found or if the latest model in your model registry is not linked to a run in Azure Machine Learning, it will register the model without comparing any metrics. metrics_min   list null List of metrics names that must be minimized. The action compares the metrics of the provided run with the linked run of the latest model with the same name that is registered in the model registry. The action fails if any of the specified metrics are higher than the metrics of the latest model in your model registry. If a model with the same name cannot be found or if the latest model in your model registry is not linked to a run in Azure Machine Learning, it will register the model without comparing any metrics. force_registration   bool false Boolean value that determines whether or not to force the registration of the model regardless of the provided metrics. Please visit this website for more details. Outputs Output Description model_name Name of the registered model model_version Version of the registered model model_id ID of the registered model Other Azure Machine Learning Actions aml-workspace - Connects to or creates a new workspace aml-compute - Connects to or creates a new compute target in Azure Machine Learning aml-run - Submits a ScriptRun, an Estimator or a Pipeline to Azure Machine Learning aml-registermodel - Registers a model to Azure Machine Learning aml-deploy - Deploys a model and creates an endpoint for the model Contributing This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com. When you submit a pull request, a CLA bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA. This project has adopted the Microsoft Open Source Code of Conduct. For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.","@type":"BlogPosting","url":"https://pages.github.com/docs/aml-registermodel.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://pages.github.com/docs/aml-registermodel.html"},"headline":"Aml Registermodel","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body class="document /docs/aml-registermodel">
+
+<div class="topnav">
+    <a href="/">MLOps</a>
+    <a href="/actions">Actions</a>
+    <a href="/templates">Templates</a>
+    <a href="/docs">Docs</a>
+    <a href="https://github.com/machine-learning-apps/MLOps" class="help-link">MLOps Repository</a>
+  </div>
+
+<section id="hero-spot" class="hero-spot">
+    <a href="/"><img src="/images/ml_apps.png" alt="ML Ops" class="logo" /></a>
+
+<h1 class="title">Aml Registermodel</h1>
+
+</section>
+
+<section class="content">
+
+<h2 id="usage">Usage</h2>
+
+<p>The Azure Machine Learning Register Model action will register your model in the Azure Machine Learning model registry for use in deployment and testing. This action is designed to only register the model, if the run has produced better metrics than the latest model that is registered under the same name. The metrics comparison can be controlled with the <code class="language-plaintext highlighter-rouge">metrics_max</code> and <code class="language-plaintext highlighter-rouge">metrics_min</code> parameters. These parameters define the names of the metrics that should be used for a comparison. Only if the model performs better for all metrics, the actions completes successfully and registers the model.</p>
+
+<p>This behavior can be overruled by passing the <code class="language-plaintext highlighter-rouge">force_registration</code> as true. You will need to have azure credentials that allow you to connect to the Azure MAchine Learning workspace.</p>
+
+<p>This action requires an AML workspace to be created or attached to via the <a href="https://github.com/Azure/aml-workspace">aml-workspace</a> action as well as a run that produces a model that can be either be created via the <a href="https://github.com/Azure/aml-run">aml-run</a> action or supplied directly via the <code class="language-plaintext highlighter-rouge">experiment_name</code> and <code class="language-plaintext highlighter-rouge">run_id</code> input parameters.</p>
+
+<h2 id="template-repositories">Template repositories</h2>
+
+<p>This action is one in a series of actions that can be used to setup an ML Ops process. Examples of these can be found at</p>
+<ol>
+  <li>Simple example: <a href="https://github.com/machine-learning-apps/ml-template-azure">ml-template-azure</a> and</li>
+  <li>Comprehensive example: <a href="https://github.com/Azure/aml-template">aml-template</a>.</li>
+</ol>
+
+<h3 id="example-workflow">Example workflow</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">My Workflow</span>
+<span class="na">on</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">push</span><span class="pi">,</span> <span class="nv">pull_request</span><span class="pi">]</span>
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+    <span class="c1"># Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Check Out Repository</span>
+      <span class="na">id</span><span class="pi">:</span> <span class="s">checkout_repository</span>
+      <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+
+    <span class="c1"># AML Workspace Action</span>
+    <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">Azure/aml-workspace</span>
+      <span class="na">id</span><span class="pi">:</span> <span class="s">aml_workspace</span>
+      <span class="na">with</span><span class="pi">:</span>
+        <span class="na">azure_credentials</span><span class="pi">:</span> <span class="s">$</span>
+    
+    <span class="c1"># AML Run Action</span>
+    <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">Azure/aml-run</span>
+      <span class="na">id</span><span class="pi">:</span> <span class="s">aml_run</span>
+      <span class="na">with</span><span class="pi">:</span>
+        <span class="na">azure_credentials</span><span class="pi">:</span> <span class="s">$</span>
+
+    <span class="c1"># AML Register Model Action</span>
+    <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">Azure/aml-registermodel</span>
+      <span class="na">id</span><span class="pi">:</span> <span class="s">aml_registermodel</span>
+      <span class="na">with</span><span class="pi">:</span>
+        <span class="c1"># required inputs</span>
+        <span class="na">azure_credentials</span><span class="pi">:</span> <span class="s">$</span>
+        <span class="na">run_id</span><span class="pi">:</span>  <span class="s">$</span>
+        <span class="na">experiment_name</span><span class="pi">:</span> <span class="s">$</span>
+        <span class="c1"># optional inputs</span>
+        <span class="na">parameters_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">registermodel.json"</span>
+</code></pre></div></div>
+
+<h3 id="inputs">Inputs</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Input</th>
+      <th>Required</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>azure_credentials</td>
+      <td>x</td>
+      <td>-</td>
+      <td>Output of <code class="language-plaintext highlighter-rouge">az ad sp create-for-rbac --name &lt;your-sp-name&gt; --role contributor --scopes /subscriptions/&lt;your-subscriptionId&gt;/resourceGroups/&lt;your-rg&gt; --sdk-auth</code>. This should be stored in your secrets.</td>
+    </tr>
+    <tr>
+      <td>experiment_name</td>
+      <td>x</td>
+      <td>-</td>
+      <td>Experiment name to which the run belongs to.</td>
+    </tr>
+    <tr>
+      <td>run_id</td>
+      <td>x</td>
+      <td>-</td>
+      <td>ID of the run or pipeline run for which a model is to be registered.</td>
+    </tr>
+    <tr>
+      <td>parameters_file</td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">"registermodel.json"</code></td>
+      <td>JSON file in the <code class="language-plaintext highlighter-rouge">.cloud/.azure</code> folder specifying your Azure Machine Learning model registration details.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="azure-credentials">Azure Credentials</h4>
+
+<p>Azure credentials are required to connect to your Azure Machine Learning Workspace. These may have been created for an action you are already using in your repository, if so, you can skip the steps below.</p>
+
+<p>Install the <a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest">Azure CLI</a> on your computer or use the Cloud CLI and execute the following command to generate the required credentials:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Replace {service-principal-name}, {subscription-id} and {resource-group} with your Azure subscription id and resource group name and any name for your service principle</span>
+az ad sp create-for-rbac <span class="nt">--name</span> <span class="o">{</span>service-principal-name<span class="o">}</span> <span class="se">\</span>
+                         <span class="nt">--role</span> contributor <span class="se">\</span>
+                         <span class="nt">--scopes</span> /subscriptions/<span class="o">{</span>subscription-id<span class="o">}</span>/resourceGroups/<span class="o">{</span>resource-group<span class="o">}</span> <span class="se">\</span>
+                         <span class="nt">--sdk-auth</span>
+</code></pre></div></div>
+
+<p>This will generate the following JSON output:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
+  <span class="s2">"clientId"</span>: <span class="s2">"&lt;GUID&gt;"</span>,
+  <span class="s2">"clientSecret"</span>: <span class="s2">"&lt;GUID&gt;"</span>,
+  <span class="s2">"subscriptionId"</span>: <span class="s2">"&lt;GUID&gt;"</span>,
+  <span class="s2">"tenantId"</span>: <span class="s2">"&lt;GUID&gt;"</span>,
+  <span class="o">(</span>...<span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Add this JSON output as <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets">a secret</a> with the name <code class="language-plaintext highlighter-rouge">AZURE_CREDENTIALS</code> in your GitHub repository.</p>
+
+<h4 id="parameters-file">Parameters File</h4>
+
+<p>The action tries to load a JSON file in the <code class="language-plaintext highlighter-rouge">.cloud/.azure</code> folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action is looking for a file with the name <code class="language-plaintext highlighter-rouge">registermodel.json</code>. If your JSON file has a different name, you can specify it with this parameter. Note that none of these values are required and in the absence, defaults will be used.</p>
+
+<p>A sample file can be found in this repository in the folder <code class="language-plaintext highlighter-rouge">.cloud/.azure</code>. The JSON file can include the following parameters:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Required</th>
+      <th>Allowed Values</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>model_file_name</td>
+      <td> </td>
+      <td>str</td>
+      <td><code class="language-plaintext highlighter-rouge">"model.pkl"</code></td>
+      <td>The file name for the model asset. You only have to specify the name of the model file (e.g. (<code class="language-plaintext highlighter-rouge">"model.pkl"</code>)) and not the path (e.g. <code class="language-plaintext highlighter-rouge">"outputs/model.pkl"</code>). The can take care of the path that was used to store the file.</td>
+    </tr>
+    <tr>
+      <td>model_name</td>
+      <td> </td>
+      <td>str</td>
+      <td><REPO_NAME>-<BRANCH_NAME></BRANCH_NAME></REPO_NAME></td>
+      <td>The name to register the model with. It must only consist of letters, numbers, dashes, periods, or underscores, start with a letter or number, and be between 1 and 32 characters long.</td>
+    </tr>
+    <tr>
+      <td>model_framework</td>
+      <td> </td>
+      <td>str: <code class="language-plaintext highlighter-rouge">"scikitlearn"</code>, <code class="language-plaintext highlighter-rouge">"onnx"</code>, <code class="language-plaintext highlighter-rouge">"tensorflow"</code>, <code class="language-plaintext highlighter-rouge">"keras"</code>, <code class="language-plaintext highlighter-rouge">"custom"</code></td>
+      <td><code class="language-plaintext highlighter-rouge">"custom"</code></td>
+      <td>The framework of the registered model.</td>
+    </tr>
+    <tr>
+      <td>model_framework_version</td>
+      <td> </td>
+      <td>str</td>
+      <td>null</td>
+      <td>The framework version of the registered model.</td>
+    </tr>
+    <tr>
+      <td>model_tags</td>
+      <td> </td>
+      <td>dict: {“<your-run-tag-key>": "<your-run-tag-value>", ...}</your-run-tag-value></your-run-tag-key></td>
+      <td>null</td>
+      <td>An optional dictionary of key value tags to assign to the model.</td>
+    </tr>
+    <tr>
+      <td>model_properties</td>
+      <td> </td>
+      <td>dict: {“<your-run-property-key>": "<your-run-property-value>", ...}</your-run-property-value></your-run-property-key></td>
+      <td>null</td>
+      <td>An optional dictionary of key value properties to assign to the model. These properties can’t be changed after model creation, however new key value pairs can be added.</td>
+    </tr>
+    <tr>
+      <td>model_description</td>
+      <td> </td>
+      <td>str</td>
+      <td>null</td>
+      <td>A text description of the model.</td>
+    </tr>
+    <tr>
+      <td>datasets</td>
+      <td> </td>
+      <td>list</td>
+      <td>null</td>
+      <td>A list of dataset names that are regstered in your workspace that should be assigned to the registered model.</td>
+    </tr>
+    <tr>
+      <td>sample_input_dataset</td>
+      <td> </td>
+      <td>str</td>
+      <td>null</td>
+      <td>Name of a sample input dataset that is regstered in your workspace for the registered model.</td>
+    </tr>
+    <tr>
+      <td>sample_output_dataset</td>
+      <td> </td>
+      <td>str</td>
+      <td>null</td>
+      <td>Name of a sample output dataset that is regstered in your workspace for the registered model.</td>
+    </tr>
+    <tr>
+      <td>pipeline_child_run_name</td>
+      <td> </td>
+      <td>str</td>
+      <td><code class="language-plaintext highlighter-rouge">"model_training"</code></td>
+      <td>If you provided a run ID of a pipeline to this GitHub Action, you have to specify the name of the step that produced the model. Without providing the name of the step that produced the model, the Action does not know where to look for the model file. The step in the pipeline with the provided name can be of any type (HyperDriveStep, PythonScriptStep, etc.). There are no limitations on the step type.</td>
+    </tr>
+    <tr>
+      <td>cpu</td>
+      <td> </td>
+      <td>float</td>
+      <td>null</td>
+      <td>The number of CPU cores to allocate for this resource. Can be a decimal. You have to specify <code class="language-plaintext highlighter-rouge">cpu</code> and <code class="language-plaintext highlighter-rouge">memory</code> to register the model with a resource configuration. If you do not specify both parameters the model will be registered without a resource configuration.</td>
+    </tr>
+    <tr>
+      <td>memory</td>
+      <td> </td>
+      <td>float</td>
+      <td>null</td>
+      <td>The amount of memory (in GB) to allocate for this resource. Can be a decimal. You have to specify <code class="language-plaintext highlighter-rouge">cpu</code> and <code class="language-plaintext highlighter-rouge">memory</code> to register the model with a resource configuration. If you do not specify both parameters the model will be registered without a resource configuration.</td>
+    </tr>
+    <tr>
+      <td>metrics_max</td>
+      <td> </td>
+      <td>list</td>
+      <td>null</td>
+      <td>List of metrics names that must be maximized. The action compares the metrics of the provided run with the linked run of the latest model with the same name that is registered in the model registry. The action fails if any of the specified metrics are lower than the metrics of the latest model in your model registry. If a model with the same name cannot be found or if the latest model in your model registry is not linked to a run in Azure Machine Learning, it will register the model without comparing any metrics.</td>
+    </tr>
+    <tr>
+      <td>metrics_min</td>
+      <td> </td>
+      <td>list</td>
+      <td>null</td>
+      <td>List of metrics names that must be minimized. The action compares the metrics of the provided run with the linked run of the latest model with the same name that is registered in the model registry. The action fails if any of the specified metrics are higher than the metrics of the latest model in your model registry. If a model with the same name cannot be found or if the latest model in your model registry is not linked to a run in Azure Machine Learning, it will register the model without comparing any metrics.</td>
+    </tr>
+    <tr>
+      <td>force_registration</td>
+      <td> </td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Boolean value that determines whether or not to force the registration of the model regardless of the provided metrics.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Please visit <a href="https://docs.microsoft.com/en-us/python/api/azureml-core/azureml.core.model(class)?view=azure-ml-py#register-workspace--model-path--model-name--tags-none--properties-none--description-none--datasets-none--model-framework-none--model-framework-version-none--child-paths-none--sample-input-dataset-none--sample-output-dataset-none--resource-configuration-none-">this website</a> for more details.</p>
+
+<h3 id="outputs">Outputs</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Output</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>model_name</td>
+      <td>Name of the registered model</td>
+    </tr>
+    <tr>
+      <td>model_version</td>
+      <td>Version of the registered model</td>
+    </tr>
+    <tr>
+      <td>model_id</td>
+      <td>ID of the registered model</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="other-azure-machine-learning-actions">Other Azure Machine Learning Actions</h3>
+
+<ul>
+  <li><a href="https://github.com/Azure/aml-workspace">aml-workspace</a> - Connects to or creates a new workspace</li>
+  <li><a href="https://github.com/Azure/aml-compute">aml-compute</a> - Connects to or creates a new compute target in Azure Machine Learning</li>
+  <li><a href="https://github.com/Azure/aml-run">aml-run</a> - Submits a ScriptRun, an Estimator or a Pipeline to Azure Machine Learning</li>
+  <li><a href="https://github.com/Azure/aml-registermodel">aml-registermodel</a> - Registers a model to Azure Machine Learning</li>
+  <li><a href="https://github.com/Azure/aml-deploy">aml-deploy</a> - Deploys a model and creates an endpoint for the model</li>
+</ul>
+
+<h3 id="contributing">Contributing</h3>
+
+<p>This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.</p>
+
+<p>When you submit a pull request, a CLA bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.</p>
+
+<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
+For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
+contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+
+
+</section>
+
+<footer class="page-footer">
+  <ul class="site-footer-links right">
+    <li><a href="https://status.github.com/">Status</a></li>
+    <li><a href="https://developer.github.com">API</a></li>
+    <li><a href="https://training.github.com">Training</a></li>
+    <li><a href="https://shop.github.com">Shop</a></li>
+    <li><a href="https://github.com/blog">Blog</a></li>
+    <li><a href="https://github.com/about">About</a></li>
+  </ul>
+
+  <a href="/">
+    <span class="mega-octicon octicon-mark-github"></span>
+  </a>
+
+  <ul class="site-footer-links">
+    <li>&copy; 2020 <span>GitHub</span>, Inc.</li>
+    <li><a href="https://github.com/site/terms">Terms</a></li>
+    <li><a href="https://github.com/site/privacy">Privacy</a></li>
+    <li><a href="https://github.com/security">Security</a></li>
+    <li><a href="https://github.com/contact">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3769691-40', 'github.com');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>
+
+
