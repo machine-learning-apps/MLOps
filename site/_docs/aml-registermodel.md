@@ -1,7 +1,8 @@
-![Integration Test](https://github.com/Azure/aml-registermodel/workflows/Integration%20Test/badge.svg)
-![Lint](https://github.com/Azure/aml-registermodel/workflows/Lint/badge.svg)
-
-# Azure Machine Learning Register Model Action
+---
+Title: Azure Machine Learning Register Model
+category: Azure Machine Learning
+order: 4
+---
 
 ## Usage
 

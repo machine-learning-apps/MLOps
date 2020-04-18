@@ -379,7 +379,7 @@ footer .right { float: right; margin: 0; }
 /* generated lists for actions and templates */
 .gen-list { margin-top: 60px; margin-bottom: 120px; }
 
-.gen-list > li { background-color: #fff; padding: 8px 0 10px; font-size: 13px; border: 1px solid #ddd; border-radius: 4px; text-align: right; }
+.gen-list > li { background-color: #fff; height: 200px; width: 75%; padding: 8px 0 10px; font-size: 13px; border: 1px solid #ddd; border-radius: 4px; text-align: right; }
 
 .gen-list img { position: absolute; padding: 50px; height: 80px; width: 80px; }
 

@@ -1,7 +1,8 @@
-![Integration Test](https://github.com/Azure/aml-run/workflows/Integration%20Test/badge.svg)
-![Lint](https://github.com/Azure/aml-run/workflows/Lint/badge.svg)
-
-# Azure Machine Learning Run Action
+---
+Title: Azure Machine Learning Run
+category: Azure Machine Learning
+order: 3
+---
 
 ## Usage
 

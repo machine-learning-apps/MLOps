@@ -1,7 +1,8 @@
-![Integration Test](https://github.com/Azure/aml-deploy/workflows/Integration%20Test/badge.svg)
-![Lint](https://github.com/Azure/aml-deploy/workflows/Lint/badge.svg)
-
-# Azure Machine Learning Deploy Action
+---
+Title: Azure Machine Learning Deploy
+category: Azure Machine Learning
+order: 5
+---
 
 ## Usage
 
