@@ -1,10 +1,10 @@
-title: "GitHub Pages"
-description: "Websites for you and your projects, hosted directly from your GitHub repository. Just edit, push, and your changes are live."
-url: "https://pages.github.com"
+title: "Machine Learning Ops"
+description: "Community Driven tools for Machine Learning Operations."
+url: "https://machine-learning-apps.github.io/MLOps/"
 twitter:
   username: github
 
-repository: github/pages.github.com
+repository: machine-learning-apps/MLOps
 
 markdown: kramdown
 exclude:
