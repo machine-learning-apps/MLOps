@@ -21,7 +21,7 @@ images:
   <ul id="actions" class="tutorial-list wrapper active">
     <li id="add-actions-step" class="image-right">
       <h4>Creating an ML Ops Workflow</h4>
-      <p>Use actions to automate Data Science and Machine Learning Workflows. Check out the community built <a href="/{{ site.base_url }}/actions">actions for ML Ops</a></p>
+      <p>Use actions to automate Data Science and Machine Learning Workflows. Check out the community built <a href="{{ site.base_url }}/actions">actions for ML Ops</a></p>
 
       <p class="details">The actions are modular and defined as part of a workflow in the .github/workflows directory of your repo.</p>
     </li>
@@ -29,8 +29,8 @@ images:
     <li>
       <h4>Using Community Driven Actions</h4>
       <p>Actions are available to help orchestrate training, testing and deploying Machine Learning models. We have curated a set of actions available for ML Operations.</p>
-      <a class="desktop-download" href="/{{ site.base_url }}/actions"><span class="icon"></span>Community Featured</a>
-      <a href="/{{ site.base_url }}/actions"><img src="images/marketplace.png" width="850" alt="GitHub Desktop screenshot"/></a>
+      <a class="desktop-download" href="{{ site.base_url }}/actions"><span class="icon"></span>Community Featured</a>
+      <a href="{{ site.base_url }}/actions"><img src="images/marketplace.png" width="850" alt="GitHub Desktop screenshot"/></a>
     </li>
     <li id="contributing-action" class="image-right">
       <h4>Contributing an Action</h4>
@@ -46,7 +46,7 @@ images:
       <h4>Community Driven Templates</h4>
       <p>Templates are repositories that can be used as scaffolding for starting a project. The MLOps community has 
         developed a multitude of these that allow you to get started on many different flavors of cloud.
-        Head over to the <a href="/{{ site.base_url }}/templates">Community Templates</a> and choose from one of the tempates to get started.
+        Head over to the <a href="{{ site.base_url }}/templates">Community Templates</a> and choose from one of the tempates to get started.
       <img src="images/template-comm.png" width="720" alt="Settings for a repository" />
     </li>
 
@@ -94,25 +94,9 @@ images:
         </div>
       </div>
     </div>
-    <div class="col-1-4">
-      <div class="card-contributors">
-        <img src="img_avatar.png" alt="Avatar" style="width:100%">
-        <div class="container-contributors">
-          <h4>Azure</h4>
-        </div>
-      </div>
-    </div>
-    <div class="col-1-4">
-      <div class="card-contributors">
-        <img src="img_avatar.png" alt="Avatar" style="width:100%">
-        <div class="container-contributors">
-          <h4>Azure</h4>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
-<script src="/js/jquery.js"></script>
+<script src="{{ site.baseurl }}/js/jquery.js"></script>
 <script>window.slides = {{ page.images | jsonify }}</script>
-<script src="/js/application.js"></script>
+<script src="{{ site.baseurl }}/js/application.js"></script>

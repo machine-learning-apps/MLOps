@@ -6,6 +6,6 @@ set -e
 script/branding
 
 echo "=== Bundle Installin' ==="
-bundle install --binstubs bin --path vendor/gems
+bundle install
 
 echo "== Done =="

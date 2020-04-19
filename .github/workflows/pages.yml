@@ -22,7 +22,7 @@ jobs:
     - name: Jekyll build
       uses: docker://jekyll/jekyll
       with:
-        args: /bin/bash -c "cd site; bundle install --binstubs bin --path vendor/gems; bundle exec jekyll build $@"
+        args: /bin/bash -c "cd site; bundle install; bundle exec jekyll build"
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3

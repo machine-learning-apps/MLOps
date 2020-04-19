@@ -130,13 +130,13 @@ h1 { margin: 90px auto 0 auto; font-size: 48px; font-weight: 200; line-height: 6
 
 .tutorial-list .image-right p { margin-left: 30px; margin-right: 30px; }
 
-#add-actions-step { background: #fff url(/images/add_actions.png) right 0 no-repeat; background-size: 460px; }
+#add-actions-step { background: #fff url(../images/add_actions.png) right 0 no-repeat; background-size: 460px; }
 
-#contributing-action { background: #fff url(/images/gh_actions.png) right 0 no-repeat; background-size: 468px 285px; }
+#contributing-action { background: #fff url(../images/gh_actions.png) right 0 no-repeat; background-size: 468px 285px; }
 
-#contributing-template { background: #fff url(/images/template_contrib.png) right 0 no-repeat; background-size: 460px; }
+#contributing-template { background: #fff url(../images/template_contrib.png) right 0 no-repeat; background-size: 460px; }
 
-#setup-in-desktop { background: #fff url(/images/setup-in-desktop@2x.png) no-repeat right 0; background-size: 443px 303px; }
+#setup-in-desktop { background: #fff url(../images/setup-in-desktop@2x.png) no-repeat right 0; background-size: 443px 303px; }
 
 .tutorial-list .animate-in { -webkit-transform: translateY(40px); -moz-transform: translateY(40px); -o-transform: translateY(40px); -ms-transform: translateY(40px); transform: translateY(40px); opacity: 0; }
 
