@@ -1,1 +1,1 @@
-Sitemap: https://pages.github.com/sitemap.xml
+Sitemap: https://machine-learning-apps.github.io/MLOps//sitemap.xml
