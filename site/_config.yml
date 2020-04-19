@@ -1,6 +1,7 @@
 title: "Machine Learning Ops"
 description: "Community Driven tools for Machine Learning Operations."
-url: "https://machine-learning-apps.github.io/MLOps/"
+baseurl: "/MLDevOps" # the subpath of your site, e.g. /blog
+url: "https://machine-learning-apps.github.io" # the base hostname & protocol for your site
 twitter:
   username: github
 
