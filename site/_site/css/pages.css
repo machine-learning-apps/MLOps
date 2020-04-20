@@ -56,7 +56,7 @@ em { font-style: italic; }
 
 textarea { border: none; background-color: transparent; width: 400px; outline: none; }
 
-.logo { display: block; width: 169px; margin: 0 auto; }
+.logo { display: block; width: 250px; margin: 0 auto; }
 
 /* Add a black background color to the top navigation */
 .topnav { background-color: #222; overflow: hidden; }
